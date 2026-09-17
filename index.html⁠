@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tải cấu hình DNS bảo mật</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; text-align: center; padding: 60px 20px; background: #f0f2f5; }
+        .card { background: white; padding: 40px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.05); max-width: 400px; width: 100%; }
+        .btn { background: #007aff; color: white; padding: 14px 24px; text-decoration: none; border-radius: 8px; display: inline-block; margin-top: 20px; font-weight: bold; font-size: 16px; }
+        .locked { color: #ff3b30; font-weight: bold; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Cấu hình DNS Cá Nhân</h2>
+        <p id="status">Đang kiểm tra kết nối hệ thống...</p>
+        <div id="action-area"></div>
+    </div>
+
+    <script>
+        fetch('status.json')
+            .then(response => response.json())
+            .then(data => {
+                const statusEl = document.getElementById('status');
+                const actionArea = document.getElementById('action-area');
+
+                if (data.active) {
+                    statusEl.innerHTML = "Trạng thái: <span style='color:#34c759;'>Hoạt động</span>";
+                    actionArea.innerHTML = '<a href="dns.mobileconfig" class="btn">Tải xuống Hồ sơ (Profile)</a>';
+                } else {
+                    statusEl.innerHTML = "<span class='locked'>⚠️ Hệ thống đã bị khóa từ xa bởi quản trị viên!</span>";
+                }
+            })
+            .catch(err => {
+                document.getElementById('status മറ്റൊരു">Không thể kết nối đến máy chủ kiểm soát.</span>';
+            });
+    </script>
+</body>
+</html>
