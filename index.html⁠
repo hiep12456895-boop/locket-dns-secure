@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locket DNS Secure</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; text-align: center; padding: 50px; background: #f4f4f9; color: #333; }
+        .container { max-width: 400px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h1 { font-size: 20px; margin-bottom: 15px; }
+        p { font-size: 14px; color: #666; margin-bottom: 25px; }
+        .btn { display: inline-block; background: #007aff; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; }
+        .locked { background: #ff3b30; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Locket DNS Security</h1>
+        <p id="status-text">Đang kiểm tra trạng thái hệ thống...</p>
+        <div id="action-area"></div>
+    </div>
+
+    <script>
+        fetch('status.json?t=' + new Date().getTime())
+            .then(response => response.json())
+            .then(data => {
+                const statusText = document.getElementById('status-text');
+                const actionArea = document.getElementById('action-area');
+                
+                if (data.active) {
+                    statusText.innerText = "Hệ thống đang hoạt động bình thường. Bạn có thể tải hồ sơ cấu hình bên dưới.";
+                    actionArea.innerHTML = '<a href="dns.mobileconfig" class="btn">Tải xuống Hồ sơ DNS</a>';
+                } else {
+                    statusText.innerText = "Dịch vụ hiện đang bị khóa tạm thời bởi quản trị viên.";
+                    actionArea.innerHTML = '<span class="btn locked">Đã khóa truy cập</span>';
+                }
+            })
+            .catch(error => {
+                document.getElementById('status-text').innerText = "Không thể kết nối đến máy chủ trạng thái.";
+            });
+    </script>
+</body>
+</html>
